@@ -46,4 +46,4 @@ Once that row exists, RLS will let the user read their salon's data.
 
 ## Verifying isolation (optional but recommended)
 
-Create a second test salon, second auth user, second `public.users` row pointing to that other salon, then confirm via the SQL Editor (set the role to `authenticated` with `set role authenticated; set request.jwt.claim.sub = '<other-user-uuid>';`) that cross-salon queries return zero rows.
+Create a second test salon, second auth user, second `public.users` row pointing to that other salon, then confirm via the SQL Editor (set the role to `authenticated` with `set role authenticated; set request.jwt.claims = '{"sub":"<other-user-uuid>"}'::jsonb;`) that `select public.get_salon_id()` returns the correct salon and cross-salon queries return zero rows.

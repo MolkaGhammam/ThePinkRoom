@@ -21,16 +21,10 @@ export const metadata: Metadata = {
   description: "Appointment management for The Pink Room.",
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  return (
-    <html lang="fr" className={`${sans.variable} ${serif.variable}`}>
-      <body className="min-h-screen bg-canvas font-sans text-ink antialiased">
-        {children}
-      </body>
-    </html>
-  );
+// Font CSS variables are passed down via the className on <html> in [locale]/layout.tsx.
+export const fontVariables = `${sans.variable} ${serif.variable}`;
+
+// This layout renders no HTML — [locale]/layout.tsx owns the full <html> tree.
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return children;
 }

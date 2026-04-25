@@ -9,12 +9,17 @@
     "lint": "eslint",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "db:types": "supabase gen types typescript --project-id iflhqasouzllajmspvzv --schema public > src/types/database.ts"
   },
   "dependencies": {
+    "@sentry/nextjs": "^10.50.0",
+    "@supabase/ssr": "^0.10.2",
+    "@supabase/supabase-js": "^2.104.1",
     "clsx": "^2.1.1",
     "lucide-react": "^0.460.0",
     "next": "16.2.4",
+    "next-intl": "^4.9.1",
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "tailwind-merge": "^2.5.4"
