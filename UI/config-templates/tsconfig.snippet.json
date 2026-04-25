@@ -1,0 +1,10 @@
+{
+  "//": "Merge these `paths` entries into your project's tsconfig.json `compilerOptions.paths`.",
+  "//baseUrl": "Make sure compilerOptions.baseUrl is `.` (Next.js default).",
+  "compilerOptions": {
+    "paths": {
+      "@kit": ["./design-kit/index.ts"],
+      "@kit/*": ["./design-kit/*"]
+    }
+  }
+}

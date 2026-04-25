@@ -1,0 +1,13 @@
+{
+  "//": "Merge these into your project's package.json. They are the design kit's runtime peers.",
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.468.0",
+    "tailwind-merge": "^2.5.5"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.17",
+    "postcss": "^8.4.49",
+    "autoprefixer": "^10.4.20"
+  }
+}
