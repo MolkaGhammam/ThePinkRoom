@@ -1,0 +1,33 @@
+version: '3'
+
+tasks:
+  start:
+    desc: Start development server
+    cmds:
+      - pnpm dev
+  
+  install:
+    desc: Install dependencies
+    cmds:
+      - pnpm install
+  
+  build:
+    desc: Build the project
+    cmds:
+      - pnpm build
+
+  prod:
+    desc: Build and start production server
+    cmds:
+      - pnpm build
+      - pnpm start
+
+  lint:
+    desc: Run linter
+    cmds:
+      - pnpm lint
+
+  seed:
+    desc: Seed test users and demo data
+    cmds:
+      - pnpm seed:test

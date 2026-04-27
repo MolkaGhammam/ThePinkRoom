@@ -1,0 +1,33 @@
+{
+  "common": {
+    "appName": "The Pink Room",
+    "loading": "Chargement…",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "back": "Retour",
+    "logout": "Se déconnecter",
+    "error": "Une erreur est survenue",
+    "offline": "Vous êtes hors ligne"
+  },
+  "auth": {
+    "email": "Adresse e-mail",
+    "password": "Mot de passe",
+    "login": "Se connecter",
+    "forgotPassword": "Mot de passe oublié ?",
+    "resetPassword": "Réinitialiser le mot de passe",
+    "resetPasswordDescription": "Entrez votre e-mail pour recevoir un lien de réinitialisation.",
+    "sendResetLink": "Envoyer le lien",
+    "resetLinkSent": "Un lien de réinitialisation a été envoyé à votre adresse e-mail.",
+    "newPassword": "Nouveau mot de passe",
+    "updatePassword": "Mettre à jour le mot de passe",
+    "passwordUpdated": "Mot de passe mis à jour. Vous pouvez maintenant vous connecter.",
+    "invalidCredentials": "E-mail ou mot de passe incorrect.",
+    "backToLogin": "Retour à la connexion"
+  },
+  "home": {
+    "greeting": "Bonjour",
+    "tagline": "Gérez vos rendez-vous"
+  }
+}
