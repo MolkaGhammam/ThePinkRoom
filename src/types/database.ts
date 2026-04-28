@@ -36,6 +36,7 @@ export interface Database {
           updated_at?: string;
           deleted_at?: string | null;
         };
+        Relationships: [];
       };
       salon_closures: {
         Row: {
@@ -62,6 +63,7 @@ export interface Database {
           updated_at?: string;
           deleted_at?: string | null;
         };
+        Relationships: [];
       };
       users: {
         Row: {
@@ -100,6 +102,7 @@ export interface Database {
           updated_at?: string;
           deleted_at?: string | null;
         };
+        Relationships: [];
       };
       services: {
         Row: {
@@ -132,6 +135,7 @@ export interface Database {
           updated_at?: string;
           deleted_at?: string | null;
         };
+        Relationships: [];
       };
       clients: {
         Row: {
@@ -173,6 +177,7 @@ export interface Database {
           updated_at?: string;
           deleted_at?: string | null;
         };
+        Relationships: [];
       };
       appointments: {
         Row: {
@@ -214,6 +219,7 @@ export interface Database {
           created_by?: string | null;
           deleted_at?: string | null;
         };
+        Relationships: [];
       };
       appointment_services: {
         Row: {
@@ -241,6 +247,7 @@ export interface Database {
           duration_at_booking?: number;
           updated_at?: string;
         };
+        Relationships: [];
       };
       payments: {
         Row: {
@@ -280,7 +287,11 @@ export interface Database {
           updated_at?: string;
           deleted_at?: string | null;
         };
+        Relationships: [];
       };
+    };
+    Views: {
+      [_ in never]: never;
     };
     Functions: {
       get_salon_id: {
@@ -291,6 +302,12 @@ export interface Database {
         Args: Record<string, never>;
         Returns: string;
       };
+    };
+    Enums: {
+      [_ in never]: never;
+    };
+    CompositeTypes: {
+      [_ in never]: never;
     };
   };
 }

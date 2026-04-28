@@ -1,5 +1,16 @@
-const CACHE = "pinkroom-shell-v1";
-const SHELL = ["/fr", "/fr/login", "/manifest.webmanifest"];
+const CACHE = "pinkroom-shell-v2";
+const SHELL = [
+  "/fr",
+  "/fr/login",
+  "/manifest.webmanifest",
+  "/favicon.ico",
+  "/apple-touch-icon.png",
+  "/icons/apple-touch-icon-180.png",
+  "/icons/icon-192.png",
+  "/icons/icon-512.png",
+  "/icons/maskable-icon-192.png",
+  "/icons/maskable-icon-512.png",
+];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(

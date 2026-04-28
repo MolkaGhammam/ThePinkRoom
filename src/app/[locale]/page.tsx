@@ -19,7 +19,17 @@ function HomeContent({ name, role }: { name: string; role: string }) {
         variant="greeting"
         greeting={`${t("greeting")}, ${name}`}
         subGreeting={t("tagline")}
-        right={<LocaleSwitcher />}
+        right={
+          <div className="flex items-center gap-2">
+            <span
+              aria-hidden
+              className="text-ink-secondary text-lg leading-none rtl:rotate-180"
+            >
+              ›
+            </span>
+            <LocaleSwitcher />
+          </div>
+        }
       />
 
       <div className="mt-8 rounded-2xl bg-white p-5 shadow-card">
