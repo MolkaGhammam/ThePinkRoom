@@ -8,7 +8,6 @@ import { isValidOpeningHours, type OpeningHours } from "@/lib/opening-hours";
 
 type SalonInput = {
   name: string;
-  locale_default: string;
   default_appointment_duration_minutes: number;
   opening_hours: OpeningHours;
 };
@@ -22,9 +21,6 @@ export async function updateSalon(input: SalonInput): Promise<Result<null>> {
   const name = input.name.trim();
   if (!name) {
     return { ok: false, error: "name_required" };
-  }
-  if (!["fr", "ar"].includes(input.locale_default)) {
-    return { ok: false, error: "invalid_locale" };
   }
   if (
     !Number.isInteger(input.default_appointment_duration_minutes) ||
@@ -42,7 +38,6 @@ export async function updateSalon(input: SalonInput): Promise<Result<null>> {
     .from("salons")
     .update({
       name,
-      locale_default: input.locale_default,
       default_appointment_duration_minutes: input.default_appointment_duration_minutes,
       opening_hours: input.opening_hours,
     })

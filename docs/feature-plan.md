@@ -231,6 +231,8 @@ The most complex phase. Split into sub-steps.
 
 ## Phase 8 — Arabic Translation & RTL Pass
 
+(this phase was ditched as a request from the developer)
+
 Done last so all strings are known before translating.
 
 ### Tasks

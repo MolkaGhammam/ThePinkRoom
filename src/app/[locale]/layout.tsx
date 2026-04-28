@@ -16,15 +16,14 @@ export default async function LocaleLayout({
 }) {
   const { locale } = await params;
 
-  if (!routing.locales.includes(locale as "fr" | "ar")) {
+  if (!routing.locales.includes(locale as "fr")) {
     notFound();
   }
 
   const messages = await getMessages();
-  const dir = locale === "ar" ? "rtl" : "ltr";
 
   return (
-    <html lang={locale} dir={dir} className={fontVariables}>
+    <html lang={locale} dir="ltr" className={fontVariables}>
       <head>
         <link rel="manifest" href="/manifest.webmanifest" />
         <meta name="theme-color" content="#fdf4f0" />

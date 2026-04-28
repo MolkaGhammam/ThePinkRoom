@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { useTranslations } from "next-intl";
-import { Button, Card, SegmentedToggle, TextField } from "@kit";
+import { Button, Card, TextField } from "@kit";
 import type { Salon } from "@/types/domain";
 import {
   DEFAULT_OPENING_HOURS,
@@ -24,9 +24,6 @@ export function SalonForm({ salon }: { salon: Salon }) {
     : DEFAULT_OPENING_HOURS;
 
   const [name, setName] = useState(salon.name);
-  const [localeDefault, setLocaleDefault] = useState<"fr" | "ar">(
-    (salon.locale_default as "fr" | "ar") ?? "fr",
-  );
   const [duration, setDuration] = useState<number>(
     salon.default_appointment_duration_minutes,
   );
@@ -38,7 +35,6 @@ export function SalonForm({ salon }: { salon: Salon }) {
     startTransition(async () => {
       const result = await updateSalon({
         name,
-        locale_default: localeDefault,
         default_appointment_duration_minutes: duration,
         opening_hours: hours,
       });
@@ -63,20 +59,6 @@ export function SalonForm({ salon }: { salon: Salon }) {
             onChange={(e) => setName(e.target.value)}
             required
           />
-
-          <div className="flex flex-col gap-2">
-            <span className="text-sm font-medium text-ink-secondary">
-              {t("defaultLocale")}
-            </span>
-            <SegmentedToggle
-              options={[
-                { value: "fr", label: "FR" },
-                { value: "ar", label: "AR" },
-              ]}
-              value={localeDefault}
-              onChange={(v) => setLocaleDefault(v as "fr" | "ar")}
-            />
-          </div>
 
           <TextField
             name="duration"

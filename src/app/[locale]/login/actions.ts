@@ -11,10 +11,26 @@ export async function signIn(formData: FormData) {
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
 
-  const { error } = await supabase.auth.signInWithPassword({ email, password });
+  const { data, error } = await supabase.auth.signInWithPassword({ email, password });
 
-  if (error) {
+  if (error || !data.user) {
     redirect(`/${locale}/login?error=invalid_credentials`);
+  }
+
+  // Block deactivated or soft-deleted accounts at the door.
+  const profileResult = await supabase
+    .from("users")
+    .select("active, deleted_at")
+    .eq("id", data.user.id)
+    .single();
+
+  if (
+    profileResult.error ||
+    !profileResult.data.active ||
+    profileResult.data.deleted_at
+  ) {
+    await supabase.auth.signOut();
+    redirect(`/${locale}/login?error=account_disabled`);
   }
 
   redirect(`/${locale}`);

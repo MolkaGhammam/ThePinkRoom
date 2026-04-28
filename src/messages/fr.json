@@ -24,6 +24,7 @@
     "updatePassword": "Mettre à jour le mot de passe",
     "passwordUpdated": "Mot de passe mis à jour. Vous pouvez maintenant vous connecter.",
     "invalidCredentials": "E-mail ou mot de passe incorrect.",
+    "accountDisabled": "Ce compte a été désactivé. Contactez l'administrateur.",
     "backToLogin": "Retour à la connexion"
   },
   "home": {
@@ -48,7 +49,6 @@
       "phoneOptional": "Optionnel",
       "email": "Adresse e-mail",
       "emailReadOnly": "Géré par votre compte",
-      "language": "Langue",
       "saved": "Profil mis à jour",
       "passwordHeading": "Changer le mot de passe",
       "currentPassword": "Mot de passe actuel",
@@ -61,7 +61,6 @@
     "salon": {
       "heading": "Réglages du salon",
       "name": "Nom du salon",
-      "defaultLocale": "Langue par défaut",
       "defaultDuration": "Durée de rendez-vous par défaut (minutes)",
       "openingHours": "Heures d'ouverture",
       "open": "Ouvert",
@@ -83,5 +82,58 @@
         "6": "Samedi"
       }
     }
+  },
+  "services": {
+    "title": "Services",
+    "addService": "Ajouter un service",
+    "newService": "Nouveau service",
+    "editService": "Modifier le service",
+    "name": "Nom",
+    "duration": "Durée (minutes)",
+    "price": "Prix (TND)",
+    "active": "Actif",
+    "inactive": "Inactif",
+    "showInactive": "Afficher les services inactifs",
+    "hideInactive": "Masquer les inactifs",
+    "deactivate": "Désactiver",
+    "reactivate": "Réactiver",
+    "empty": "Aucun service pour le moment",
+    "emptyHint": "Créez votre premier service pour commencer.",
+    "saved": "Service enregistré",
+    "deactivated": "Service désactivé",
+    "reactivated": "Service réactivé",
+    "minutes": "min",
+    "tnd": "TND",
+    "nameRequired": "Nom requis",
+    "durationInvalid": "Durée invalide (5 à 480 minutes)",
+    "priceInvalid": "Prix invalide"
+  },
+  "team": {
+    "title": "Équipe",
+    "addStaff": "Ajouter un membre",
+    "newStaff": "Nouveau membre",
+    "editStaff": "Modifier le membre",
+    "fullName": "Nom complet",
+    "email": "Adresse e-mail",
+    "phone": "Téléphone",
+    "phoneOptional": "Optionnel",
+    "tempPassword": "Mot de passe temporaire",
+    "tempPasswordHint": "Au moins 8 caractères. Communiquez-le à votre collaborateur.",
+    "deactivate": "Désactiver",
+    "reactivate": "Réactiver",
+    "delete": "Supprimer",
+    "deleted": "Membre supprimé",
+    "saved": "Membre enregistré",
+    "deactivatedBadge": "Désactivé",
+    "empty": "Aucun membre pour le moment",
+    "emptyHint": "Ajoutez votre premier membre d'équipe.",
+    "confirmDeleteTitle": "Supprimer ce membre ?",
+    "confirmDeleteBody": "Le membre ne pourra plus se connecter. Son historique de rendez-vous sera conservé.",
+    "confirmDelete": "Supprimer",
+    "nameRequired": "Nom requis",
+    "emailInvalid": "Adresse e-mail invalide",
+    "passwordTooShort": "Mot de passe trop court (8 caractères min.)",
+    "emailTaken": "Cette adresse e-mail est déjà utilisée",
+    "createFailed": "Échec de la création du compte"
   }
 }

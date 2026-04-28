@@ -4,7 +4,6 @@ import { useTransition, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Button, Card, TextField } from "@kit";
 import { useCurrentUser } from "@/components/UserProvider";
-import { LocaleSwitcher } from "@/components/LocaleSwitcher";
 import { updateProfile } from "../actions";
 
 export function ProfileForm() {
@@ -62,11 +61,6 @@ export function ProfileForm() {
           disabled
           readOnly
         />
-
-        <div className="flex flex-col gap-2">
-          <span className="text-sm font-medium text-ink-secondary">{t("language")}</span>
-          <LocaleSwitcher />
-        </div>
 
         {error && <p className="text-sm text-pink-fg">{error}</p>}
         {savedAt && !error && (

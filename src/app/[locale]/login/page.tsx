@@ -42,7 +42,9 @@ function LoginForm({ error, updated }: { error?: string; updated?: string }) {
         {/* Error banner */}
         {error && (
           <div className="mb-6 rounded-2xl bg-pink-soft px-4 py-3 text-sm text-ink">
-            {t("invalidCredentials")}
+            {error === "account_disabled"
+              ? t("accountDisabled")
+              : t("invalidCredentials")}
           </div>
         )}
 
