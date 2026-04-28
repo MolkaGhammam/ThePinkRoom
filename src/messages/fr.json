@@ -179,5 +179,57 @@
     "emptyHint": "Ajoutez votre première cliente.",
     "noResults": "Aucun résultat",
     "nameRequired": "Nom requis"
+  },
+  "appointments": {
+    "newAppointment": "Nouveau rendez-vous",
+    "editAppointment": "Modifier le rendez-vous",
+    "newForClient": "Nouveau rendez-vous",
+    "client": "Cliente",
+    "selectClient": "Choisir une cliente",
+    "staff": "Personnel",
+    "date": "Date",
+    "time": "Heure",
+    "moreDates": "Plus de dates",
+    "services": "Prestations",
+    "selectServices": "Choisir les prestations",
+    "noServiceSelected": "Aucune prestation sélectionnée",
+    "totalDuration": "Durée totale",
+    "totalPrice": "Prix total",
+    "notes": "Notes",
+    "notesPlaceholder": "Notes internes (optionnel)",
+    "saved": "Rendez-vous enregistré",
+    "minutes": "min",
+    "tnd": "TND",
+    "status": {
+      "scheduled": "Planifié",
+      "confirmed": "Confirmé",
+      "completed": "Terminé",
+      "no_show": "Absent",
+      "cancelled": "Annulé"
+    },
+    "actions": {
+      "confirmed": "Confirmer",
+      "completed": "Marquer terminé",
+      "no_show": "Marquer absent",
+      "cancelled": "Annuler"
+    },
+    "overlapAdminWarning": "Ce créneau chevauche un autre rendez-vous. Continuer quand même ?",
+    "overlapStaffBlock": "Ce créneau chevauche un autre rendez-vous.",
+    "overlapContinue": "Continuer",
+    "outsideOpeningHours": "Ce créneau est en dehors des heures d'ouverture.",
+    "errors": {
+      "client_required": "Cliente requise",
+      "staff_required": "Personnel requis",
+      "no_services": "Au moins une prestation est requise",
+      "invalid_time": "Heure invalide",
+      "client_not_found": "Cliente introuvable",
+      "service_not_found": "Une prestation est introuvable",
+      "invalid_status_transition": "Changement de statut invalide",
+      "forbidden": "Action non autorisée",
+      "overlap": "Conflit horaire"
+    },
+    "confirmCancelTitle": "Annuler ce rendez-vous ?",
+    "confirmCancelBody": "Le rendez-vous restera visible dans l'historique.",
+    "confirmAction": "Confirmer"
   }
 }

@@ -3,22 +3,28 @@
 import { useMemo, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
-import { ArrowLeft, Pencil } from "lucide-react";
+import { ArrowLeft, Pencil, Plus } from "lucide-react";
 import { Button, Card, ConfirmDialog, IconButton, Tag } from "@kit";
 import type {
   Appointment,
   AppointmentService,
   Client,
   Payment,
+  Service,
+  User,
 } from "@/types/domain";
 import { ClientForm } from "../ClientForm";
 import { deleteClient } from "../actions";
+import { AppointmentForm } from "../../appointments/AppointmentForm";
+import { AppointmentDetailSheet } from "../../appointments/AppointmentDetailSheet";
 
 interface Props {
   client: Client;
   appointments: Appointment[];
   appointmentServices: AppointmentService[];
   payments: Payment[];
+  services: Service[];
+  staff: User[];
   canDelete: boolean;
 }
 
@@ -41,15 +47,22 @@ export function ClientDetailView({
   appointments,
   appointmentServices,
   payments,
+  services,
+  staff,
   canDelete,
 }: Props) {
   const t = useTranslations("clients");
+  const tAppt = useTranslations("appointments");
   const tCommon = useTranslations("common");
   const router = useRouter();
   const locale = useLocale();
   const [editing, setEditing] = useState(false);
   const [confirmDel, setConfirmDel] = useState(false);
   const [pending, startTransition] = useTransition();
+
+  const [createOpen, setCreateOpen] = useState(false);
+  const [editAppt, setEditAppt] = useState<Appointment | null>(null);
+  const [detailAppt, setDetailAppt] = useState<Appointment | null>(null);
 
   const { visits, totalSpent, noShows, lastVisitAt } = useMemo(() => {
     const completedAppts = appointments.filter((a) => a.status === "completed");
@@ -75,6 +88,46 @@ export function ClientDetailView({
     });
   }
 
+  // For the AppointmentDetailSheet we need to enrich the snapshotted services
+  // (price/duration at booking) into something that looks like a Service row.
+  const detailServices = useMemo(() => {
+    if (!detailAppt) return [] as Service[];
+    const rows = appointmentServices.filter((s) => s.appointment_id === detailAppt.id);
+    return rows.map((row) => {
+      const meta = services.find((s) => s.id === row.service_id);
+      return {
+        id: row.service_id,
+        salon_id: row.salon_id,
+        name: meta?.name ?? "—",
+        duration_minutes: row.duration_at_booking,
+        price: row.price_at_booking,
+        active: meta?.active ?? false,
+        created_at: row.created_at,
+        updated_at: row.updated_at,
+        deleted_at: null,
+      } as Service;
+    });
+  }, [detailAppt, appointmentServices, services]);
+
+  const editInitial = useMemo(() => {
+    if (!editAppt) return undefined;
+    const startDate = new Date(editAppt.start_at);
+    const date = `${startDate.getFullYear()}-${String(startDate.getMonth() + 1).padStart(2, "0")}-${String(startDate.getDate()).padStart(2, "0")}`;
+    const time = `${String(startDate.getHours()).padStart(2, "0")}:${String(startDate.getMinutes()).padStart(2, "0")}`;
+    const ids = appointmentServices
+      .filter((s) => s.appointment_id === editAppt.id)
+      .map((s) => s.service_id);
+    return {
+      id: editAppt.id,
+      client_id: editAppt.client_id,
+      staff_user_id: editAppt.staff_user_id,
+      date,
+      time,
+      service_ids: ids,
+      notes: editAppt.notes ?? "",
+    };
+  }, [editAppt, appointmentServices]);
+
   return (
     <>
       <div className="flex items-center justify-between gap-3">
@@ -97,6 +150,15 @@ export function ClientDetailView({
       <div className="mt-4">
         <h1 className="font-serif text-3xl text-ink">{client.full_name}</h1>
         {client.phone && <p className="mt-1 text-sm text-ink-secondary">{client.phone}</p>}
+      </div>
+
+      <div className="mt-4">
+        <Button tone="lavender" fullWidth onClick={() => setCreateOpen(true)}>
+          <span className="inline-flex items-center justify-center gap-2">
+            <Plus width={16} height={16} strokeWidth={2.4} />
+            {tAppt("newForClient")}
+          </span>
+        </Button>
       </div>
 
       <Card tone="white" padding="lg" elevated className="mt-6">
@@ -140,28 +202,35 @@ export function ClientDetailView({
               const svcs = appointmentServices.filter((s) => s.appointment_id === a.id);
               const total = svcs.reduce((sum, s) => sum + Number(s.price_at_booking), 0);
               return (
-                <li key={a.id} className="rounded-2xl border border-line-subtle p-3">
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="text-sm font-semibold text-ink">
-                      {formatDate(a.start_at, locale)}
-                    </span>
-                    <Tag
-                      tone={
-                        a.status === "completed"
-                          ? "mint"
-                          : a.status === "no_show" || a.status === "cancelled"
-                            ? "muted"
-                            : "lavender"
-                      }
-                    >
-                      {STATUS_LABEL[a.status] ?? a.status}
-                    </Tag>
-                  </div>
-                  {svcs.length > 0 && (
-                    <p className="mt-1 text-sm text-ink-secondary">
-                      {svcs.length} prestation{svcs.length > 1 ? "s" : ""} · {Math.round(total)} TND
-                    </p>
-                  )}
+                <li key={a.id}>
+                  <button
+                    type="button"
+                    onClick={() => setDetailAppt(a)}
+                    className="w-full rounded-2xl border border-line-subtle p-3 text-left transition hover:bg-muted/40"
+                  >
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="text-sm font-semibold text-ink">
+                        {formatDate(a.start_at, locale)}
+                      </span>
+                      <Tag
+                        tone={
+                          a.status === "completed"
+                            ? "mint"
+                            : a.status === "no_show" || a.status === "cancelled"
+                              ? "muted"
+                              : "lavender"
+                        }
+                      >
+                        {STATUS_LABEL[a.status] ?? a.status}
+                      </Tag>
+                    </div>
+                    {svcs.length > 0 && (
+                      <p className="mt-1 text-sm text-ink-secondary">
+                        {svcs.length} prestation{svcs.length > 1 ? "s" : ""} ·{" "}
+                        {Math.round(total)} TND
+                      </p>
+                    )}
+                  </button>
                 </li>
               );
             })}
@@ -183,6 +252,45 @@ export function ClientDetailView({
         client={client}
         onSaved={() => router.refresh()}
       />
+
+      <AppointmentForm
+        open={createOpen}
+        onClose={() => setCreateOpen(false)}
+        clients={[client]}
+        staff={staff}
+        services={services}
+        lockClient
+        initial={{ client_id: client.id }}
+        onSaved={() => router.refresh()}
+      />
+
+      <AppointmentForm
+        open={Boolean(editInitial)}
+        onClose={() => setEditAppt(null)}
+        clients={[client]}
+        staff={staff}
+        services={services}
+        lockClient
+        initial={editInitial}
+        onSaved={() => router.refresh()}
+      />
+
+      {detailAppt && (
+        <AppointmentDetailSheet
+          open={Boolean(detailAppt)}
+          onClose={() => setDetailAppt(null)}
+          appointment={detailAppt}
+          services={detailServices}
+          client={client}
+          staff={staff.find((s) => s.id === detailAppt.staff_user_id)}
+          onChanged={() => router.refresh()}
+          onEdit={() => {
+            const a = detailAppt;
+            setDetailAppt(null);
+            setEditAppt(a);
+          }}
+        />
+      )}
 
       <ConfirmDialog
         open={confirmDel}
