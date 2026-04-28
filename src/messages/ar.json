@@ -29,5 +29,59 @@
   "home": {
     "greeting": "مرحباً",
     "tagline": "إدارة مواعيدك"
+  },
+  "nav": {
+    "calendar": "التقويم",
+    "clients": "العميلات",
+    "services": "الخدمات",
+    "team": "الفريق",
+    "settings": "الإعدادات"
+  },
+  "settings": {
+    "title": "الإعدادات",
+    "profileTab": "الملف الشخصي",
+    "salonTab": "الصالون",
+    "profile": {
+      "heading": "ملفي الشخصي",
+      "fullName": "الاسم الكامل",
+      "phone": "الهاتف",
+      "phoneOptional": "اختياري",
+      "email": "البريد الإلكتروني",
+      "emailReadOnly": "مرتبط بحسابك",
+      "language": "اللغة",
+      "saved": "تم تحديث الملف",
+      "passwordHeading": "تغيير كلمة المرور",
+      "currentPassword": "كلمة المرور الحالية",
+      "newPassword": "كلمة المرور الجديدة",
+      "confirmPassword": "تأكيد",
+      "passwordSaved": "تم تحديث كلمة المرور",
+      "passwordMismatch": "كلمتا المرور غير متطابقتين",
+      "passwordTooShort": "8 أحرف على الأقل"
+    },
+    "salon": {
+      "heading": "إعدادات الصالون",
+      "name": "اسم الصالون",
+      "defaultLocale": "اللغة الافتراضية",
+      "defaultDuration": "المدة الافتراضية للموعد (دقائق)",
+      "openingHours": "ساعات العمل",
+      "open": "مفتوح",
+      "closed": "مغلق",
+      "openTime": "الافتتاح",
+      "closeTime": "الإغلاق",
+      "breakStart": "بداية الاستراحة",
+      "breakEnd": "نهاية الاستراحة",
+      "addBreak": "إضافة استراحة",
+      "removeBreak": "إزالة الاستراحة",
+      "saved": "تم تحديث الصالون",
+      "weekdays": {
+        "0": "الأحد",
+        "1": "الإثنين",
+        "2": "الثلاثاء",
+        "3": "الأربعاء",
+        "4": "الخميس",
+        "5": "الجمعة",
+        "6": "السبت"
+      }
+    }
   }
 }

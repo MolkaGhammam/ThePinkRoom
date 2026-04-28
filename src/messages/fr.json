@@ -29,5 +29,59 @@
   "home": {
     "greeting": "Bonjour",
     "tagline": "Gérez vos rendez-vous"
+  },
+  "nav": {
+    "calendar": "Agenda",
+    "clients": "Clients",
+    "services": "Services",
+    "team": "Équipe",
+    "settings": "Réglages"
+  },
+  "settings": {
+    "title": "Réglages",
+    "profileTab": "Profil",
+    "salonTab": "Salon",
+    "profile": {
+      "heading": "Mon profil",
+      "fullName": "Nom complet",
+      "phone": "Téléphone",
+      "phoneOptional": "Optionnel",
+      "email": "Adresse e-mail",
+      "emailReadOnly": "Géré par votre compte",
+      "language": "Langue",
+      "saved": "Profil mis à jour",
+      "passwordHeading": "Changer le mot de passe",
+      "currentPassword": "Mot de passe actuel",
+      "newPassword": "Nouveau mot de passe",
+      "confirmPassword": "Confirmer",
+      "passwordSaved": "Mot de passe mis à jour",
+      "passwordMismatch": "Les mots de passe ne correspondent pas",
+      "passwordTooShort": "Au moins 8 caractères"
+    },
+    "salon": {
+      "heading": "Réglages du salon",
+      "name": "Nom du salon",
+      "defaultLocale": "Langue par défaut",
+      "defaultDuration": "Durée de rendez-vous par défaut (minutes)",
+      "openingHours": "Heures d'ouverture",
+      "open": "Ouvert",
+      "closed": "Fermé",
+      "openTime": "Ouverture",
+      "closeTime": "Fermeture",
+      "breakStart": "Début pause",
+      "breakEnd": "Fin pause",
+      "addBreak": "Ajouter une pause",
+      "removeBreak": "Retirer la pause",
+      "saved": "Salon mis à jour",
+      "weekdays": {
+        "0": "Dimanche",
+        "1": "Lundi",
+        "2": "Mardi",
+        "3": "Mercredi",
+        "4": "Jeudi",
+        "5": "Vendredi",
+        "6": "Samedi"
+      }
+    }
   }
 }
