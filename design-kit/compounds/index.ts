@@ -15,3 +15,5 @@ export { AppointmentCard, type AppointmentCardProps } from "./AppointmentCard";
 export { SpecialistTile, type SpecialistTileProps, type SpecialistTileTone } from "./SpecialistTile";
 export { DoctorProfileCard, type DoctorProfileCardProps } from "./DoctorProfileCard";
 export { BookingCTA, type BookingCTAProps } from "./BookingCTA";
+export { Sheet, type SheetProps } from "./Sheet";
+export { ConfirmDialog, type ConfirmDialogProps } from "./ConfirmDialog";
