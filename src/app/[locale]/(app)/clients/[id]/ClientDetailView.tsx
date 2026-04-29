@@ -17,6 +17,7 @@ import { ClientForm } from "../ClientForm";
 import { deleteClient } from "../actions";
 import { AppointmentForm } from "../../appointments/AppointmentForm";
 import { AppointmentDetailSheet } from "../../appointments/AppointmentDetailSheet";
+import { BADGE_TONE, computePaymentBadge } from "@/lib/payments";
 
 interface Props {
   client: Client;
@@ -53,6 +54,7 @@ export function ClientDetailView({
 }: Props) {
   const t = useTranslations("clients");
   const tAppt = useTranslations("appointments");
+  const tPay = useTranslations("payments");
   const tCommon = useTranslations("common");
   const router = useRouter();
   const locale = useLocale();
@@ -201,6 +203,8 @@ export function ClientDetailView({
             {appointments.map((a) => {
               const svcs = appointmentServices.filter((s) => s.appointment_id === a.id);
               const total = svcs.reduce((sum, s) => sum + Number(s.price_at_booking), 0);
+              const apptPayments = payments.filter((p) => p.appointment_id === a.id);
+              const { badge } = computePaymentBadge(apptPayments, total);
               return (
                 <li key={a.id}>
                   <button
@@ -212,17 +216,20 @@ export function ClientDetailView({
                       <span className="text-sm font-semibold text-ink">
                         {formatDate(a.start_at, locale)}
                       </span>
-                      <Tag
-                        tone={
-                          a.status === "completed"
-                            ? "mint"
-                            : a.status === "no_show" || a.status === "cancelled"
-                              ? "muted"
-                              : "lavender"
-                        }
-                      >
-                        {STATUS_LABEL[a.status] ?? a.status}
-                      </Tag>
+                      <div className="flex items-center gap-1">
+                        <Tag
+                          tone={
+                            a.status === "completed"
+                              ? "mint"
+                              : a.status === "no_show" || a.status === "cancelled"
+                                ? "muted"
+                                : "lavender"
+                          }
+                        >
+                          {STATUS_LABEL[a.status] ?? a.status}
+                        </Tag>
+                        <Tag tone={BADGE_TONE[badge]}>{tPay(`badge.${badge}`)}</Tag>
+                      </div>
                     </div>
                     {svcs.length > 0 && (
                       <p className="mt-1 text-sm text-ink-secondary">
@@ -281,6 +288,7 @@ export function ClientDetailView({
           onClose={() => setDetailAppt(null)}
           appointment={detailAppt}
           services={detailServices}
+          payments={payments.filter((p) => p.appointment_id === detailAppt.id)}
           client={client}
           staff={staff.find((s) => s.id === detailAppt.staff_user_id)}
           onChanged={() => router.refresh()}

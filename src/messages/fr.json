@@ -231,5 +231,60 @@
     "confirmCancelTitle": "Annuler ce rendez-vous ?",
     "confirmCancelBody": "Le rendez-vous restera visible dans l'historique.",
     "confirmAction": "Confirmer"
+  },
+  "payments": {
+    "title": "Paiements",
+    "addPayment": "Enregistrer un paiement",
+    "newPayment": "Nouveau paiement",
+    "editPayment": "Modifier le paiement",
+    "amount": "Montant (TND)",
+    "method": "Méthode",
+    "methods": {
+      "cash": "Espèces",
+      "card": "Carte",
+      "transfer": "Virement",
+      "other": "Autre"
+    },
+    "notes": "Notes",
+    "notesOptional": "Optionnel",
+    "saved": "Paiement enregistré",
+    "deleted": "Paiement supprimé",
+    "refunded": "Paiement remboursé",
+    "refund": "Rembourser",
+    "delete": "Supprimer",
+    "totalDue": "Total dû",
+    "totalPaid": "Total payé",
+    "balance": "Reste à payer",
+    "tnd": "TND",
+    "noPayments": "Aucun paiement enregistré",
+    "badge": {
+      "unpaid": "Non payé",
+      "deposit": "Acompte",
+      "paid": "Payé",
+      "refunded": "Remboursé"
+    },
+    "confirmDeleteTitle": "Supprimer ce paiement ?",
+    "confirmDeleteBody": "Cette action est irréversible.",
+    "confirmRefundTitle": "Rembourser ce paiement ?",
+    "confirmRefundBody": "Une ligne de remboursement sera ajoutée.",
+    "errors": {
+      "amount_invalid": "Montant invalide",
+      "appointment_not_found": "Rendez-vous introuvable",
+      "forbidden": "Action non autorisée"
+    }
+  },
+  "calendar": {
+    "title": "Agenda",
+    "today": "Aujourd'hui",
+    "viewDaily": "Jour",
+    "viewWeekly": "Semaine",
+    "allStaff": "Toute l'équipe",
+    "showCancelled": "Afficher les annulés",
+    "hideCancelled": "Masquer les annulés",
+    "noAppointments": "Aucun rendez-vous ce jour-ci",
+    "closedToday": "Salon fermé ce jour",
+    "weeklyOnDesktop": "Vue semaine disponible sur écran plus large.",
+    "previous": "Précédent",
+    "next": "Suivant"
   }
 }

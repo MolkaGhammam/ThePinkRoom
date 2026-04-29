@@ -6,5 +6,5 @@ export default async function HomePage({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  redirect(`/${locale}/settings/profile`);
+  redirect(`/${locale}/calendar`);
 }

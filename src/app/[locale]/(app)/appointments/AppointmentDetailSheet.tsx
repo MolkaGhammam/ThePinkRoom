@@ -1,25 +1,29 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useMemo, useState, useTransition } from "react";
 import { useTranslations } from "next-intl";
-import { Button, ConfirmDialog, Sheet, Tag } from "@kit";
+import { Plus } from "lucide-react";
+import { Button, ConfirmDialog, IconButton, Sheet, Tag } from "@kit";
 import type {
   Appointment,
-  AppointmentService,
   AppointmentStatus,
   Client,
+  Payment,
   Service,
   User,
 } from "@/types/domain";
 import { useCurrentUser } from "@/components/UserProvider";
 import { isTerminal, nextStatuses } from "@/lib/appointments";
+import { BADGE_TONE, computePaymentBadge } from "@/lib/payments";
 import { setAppointmentStatus } from "./actions";
+import { PaymentForm } from "./PaymentForm";
 
 interface Props {
   open: boolean;
   onClose: () => void;
   appointment: Appointment;
   services: Service[]; // selected services in order
+  payments: Payment[];
   client?: Client;
   staff?: User;
   onChanged: () => void;
@@ -54,29 +58,35 @@ export function AppointmentDetailSheet({
   onClose,
   appointment,
   services,
+  payments,
   client,
   staff,
   onChanged,
   onEdit,
 }: Props) {
   const t = useTranslations("appointments");
+  const tPay = useTranslations("payments");
   const tCommon = useTranslations("common");
   const me = useCurrentUser();
   const [pending, startTransition] = useTransition();
   const [confirmCancel, setConfirmCancel] = useState(false);
+  const [paymentEditing, setPaymentEditing] = useState<Payment | null>(null);
+  const [paymentOpen, setPaymentOpen] = useState(false);
 
   const isAdmin = me.profile.role === "admin";
   const isOwnedByMe = appointment.staff_user_id === me.authId;
-  const canModify = isAdmin || isOwnedByMe;
+  const canModifyStatus = isAdmin || isOwnedByMe;
+  const canRecordPayment = isAdmin || isOwnedByMe;
   const terminal = isTerminal(appointment.status);
   const transitions = nextStatuses(appointment.status);
 
-  const totalPrice = services
-    .map((s, i) => {
-      // We pass services already enriched with appointment_services snapshot data via duration/price below if needed
-      return Number(s.price);
-    })
-    .reduce((sum, p) => sum + p, 0);
+  const totalPrice = services.reduce((sum, s) => sum + Number(s.price), 0);
+
+  const { badge, paid } = useMemo(
+    () => computePaymentBadge(payments, totalPrice),
+    [payments, totalPrice],
+  );
+  const balance = Math.max(0, totalPrice - paid);
 
   function transition(next: AppointmentStatus) {
     if (next === "cancelled") {
@@ -99,6 +109,16 @@ export function AppointmentDetailSheet({
     });
   }
 
+  function openPaymentCreate() {
+    setPaymentEditing(null);
+    setPaymentOpen(true);
+  }
+
+  function openPaymentEdit(p: Payment) {
+    setPaymentEditing(p);
+    setPaymentOpen(true);
+  }
+
   return (
     <>
       <Sheet
@@ -106,7 +126,7 @@ export function AppointmentDetailSheet({
         onClose={onClose}
         title={t("editAppointment")}
         footer={
-          canModify && !terminal ? (
+          canModifyStatus && !terminal ? (
             <div className="flex flex-col gap-2">
               {transitions.map((s) => {
                 if (s === "cancelled") {
@@ -144,10 +164,11 @@ export function AppointmentDetailSheet({
         }
       >
         <div className="flex flex-col gap-4">
-          <div className="flex items-center justify-between gap-2">
+          <div className="flex items-center gap-2">
             <Tag tone={STATUS_TONE[appointment.status]}>
               {t(`status.${appointment.status}`)}
             </Tag>
+            <Tag tone={BADGE_TONE[badge]}>{tPay(`badge.${badge}`)}</Tag>
           </div>
 
           <div>
@@ -196,6 +217,84 @@ export function AppointmentDetailSheet({
             )}
           </div>
 
+          {/* Payments section */}
+          <div>
+            <div className="flex items-center justify-between gap-3">
+              <p className="text-xs uppercase tracking-wide text-ink-muted">
+                {tPay("title")}
+              </p>
+              {canRecordPayment && (
+                <IconButton
+                  icon={Plus}
+                  label={tPay("addPayment")}
+                  tone="lavender"
+                  size="sm"
+                  onClick={openPaymentCreate}
+                />
+              )}
+            </div>
+
+            {payments.filter((p) => !p.deleted_at).length === 0 ? (
+              <p className="mt-2 text-sm text-ink-secondary">{tPay("noPayments")}</p>
+            ) : (
+              <ul className="mt-2 flex flex-col gap-1.5">
+                {payments
+                  .filter((p) => !p.deleted_at)
+                  .map((p) => {
+                    const isRefund = p.status === "refunded";
+                    const sign = isRefund ? "-" : "";
+                    const clickable = isAdmin && !isRefund;
+                    const Inner = (
+                      <>
+                        <span className="truncate text-ink">
+                          {tPay(`methods.${p.method}`)}
+                          {isRefund ? ` · ${tPay("badge.refunded")}` : ""}
+                        </span>
+                        <span className="shrink-0 font-semibold text-ink">
+                          {sign}
+                          {Math.round(Number(p.amount))} {tPay("tnd")}
+                        </span>
+                      </>
+                    );
+                    return (
+                      <li key={p.id}>
+                        {clickable ? (
+                          <button
+                            type="button"
+                            onClick={() => openPaymentEdit(p)}
+                            className="flex w-full items-center justify-between rounded-2xl bg-muted px-3 py-2 text-left text-sm transition hover:bg-line-subtle"
+                          >
+                            {Inner}
+                          </button>
+                        ) : (
+                          <div
+                            className={
+                              "flex items-center justify-between rounded-2xl px-3 py-2 text-sm " +
+                              (isRefund ? "bg-pink-soft" : "bg-muted")
+                            }
+                          >
+                            {Inner}
+                          </div>
+                        )}
+                      </li>
+                    );
+                  })}
+              </ul>
+            )}
+
+            {services.length > 0 && (
+              <div className="mt-3 flex flex-col gap-1 rounded-2xl border border-line-subtle p-3 text-sm">
+                <Row label={tPay("totalDue")} value={`${Math.round(totalPrice)} ${tPay("tnd")}`} />
+                <Row label={tPay("totalPaid")} value={`${Math.round(paid)} ${tPay("tnd")}`} />
+                <Row
+                  label={tPay("balance")}
+                  value={`${Math.round(balance)} ${tPay("tnd")}`}
+                  emphasis
+                />
+              </div>
+            )}
+          </div>
+
           {appointment.notes && (
             <div className="rounded-2xl border border-line-subtle p-3">
               <p className="text-xs uppercase tracking-wide text-ink-muted">
@@ -209,6 +308,14 @@ export function AppointmentDetailSheet({
         </div>
       </Sheet>
 
+      <PaymentForm
+        open={paymentOpen}
+        onClose={() => setPaymentOpen(false)}
+        appointmentId={appointment.id}
+        payment={paymentEditing}
+        onChanged={onChanged}
+      />
+
       <ConfirmDialog
         open={confirmCancel}
         onClose={() => setConfirmCancel(false)}
@@ -221,5 +328,24 @@ export function AppointmentDetailSheet({
         pending={pending}
       />
     </>
+  );
+}
+
+function Row({
+  label,
+  value,
+  emphasis,
+}: {
+  label: string;
+  value: string;
+  emphasis?: boolean;
+}) {
+  return (
+    <div className="flex items-center justify-between gap-3">
+      <span className="text-xs uppercase tracking-wide text-ink-muted">{label}</span>
+      <span className={emphasis ? "text-base font-semibold text-ink" : "text-sm text-ink"}>
+        {value}
+      </span>
+    </div>
   );
 }
